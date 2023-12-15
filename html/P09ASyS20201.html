@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>Pr&aacute;ctica 9: Sistemas diferenciales y en diferencias</title>
+<meta name="generator" content="MATLAB 23.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2023-12-14">
+<meta name="DC.source" content="P09ASyS20201.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h1>Pr&aacute;ctica 9: Sistemas diferenciales y en diferencias</h1>
+<!--introduction-->
+<pre>* Moreno Castro Jos&eacute; Pablo
+ * Pedraza Ocampo Eduardo
+ * Portillo Mart&iacute;nez Carolina
+ * Reyes Alvarez Angel</pre>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Sistemas diferenciales</a>
+</li>
+<li>
+<a href="#2">Entregables sistemas en diferencias</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Sistemas diferenciales</h2>
+<p>Para sistemas diferenciales realizamos este programa acorde a los puntos y caracter&iacute;sticas que se mencionan en la practica</p>
+<pre class="codeinput">syms <span class="string">s</span> <span class="string">t</span> <span class="string">Y</span>
+
+ecuacion_diferencial = Y*s^2 + 3*Y*s + 5*Y - 1 == 0;
+
+condiciones_iniciales_Y = subs(Y, 0) == 0;
+condiciones_iniciales_dY = subs(diff(Y), 0) == 0;
+
+condiciones_iniciales = [condiciones_iniciales_Y, condiciones_iniciales_dY];
+
+u(t) = heaviside(t);
+
+disp(<span class="string">'Ecuaci&oacute;n Diferencial Inicializada:'</span>);
+disp(ecuacion_diferencial);
+
+
+funcion_transferencia = laplace(ecuacion_diferencial, t, s) / laplace(u, t, s);
+
+disp(<span class="string">'Funci&oacute;n de Transferencia:'</span>);
+disp(funcion_transferencia);
+
+respuesta_impulso = ilaplace(funcion_transferencia, s, t);
+subplot(2, 3, 1);
+ezplot(respuesta_impulso, [0, 10]);
+title(<span class="string">'Respuesta al Impulso'</span>);
+
+respuesta_entrada_cero = ilaplace(funcion_transferencia * laplace(u, t, s), s, t);
+subplot(2, 3, 2);
+ezplot(respuesta_entrada_cero, [0, 10]);
+title(<span class="string">'Respuesta a Entrada Cero'</span>);
+
+respuesta_estado_cero = ilaplace(funcion_transferencia * laplace(u, t, s), s, t);
+subplot(2, 3, 3);
+ezplot(respuesta_estado_cero, [0, 10]);
+title(<span class="string">'Respuesta a Estado Cero'</span>);
+
+respuesta_total = ilaplace(laplace(ecuacion_diferencial, t, s) * laplace(u, t, s), s, t);
+subplot(2, 3, 4);
+ezplot(respuesta_total, [0, 10]);
+title(<span class="string">'Respuesta Total'</span>);
+
+respuesta_escalon_cero = ilaplace(funcion_transferencia * laplace(u, t, s), s, t);
+subplot(2, 3, 5);
+ezplot(respuesta_escalon_cero, [0, 10]);
+title(<span class="string">'Respuesta al Escal&oacute;n con CI 0'</span>);
+</pre>
+<pre class="codeoutput">Ecuaci&oacute;n Diferencial Inicializada:
+Y*s^2 + 3*Y*s + 5*Y - 1 == 0
+ 
+Funci&oacute;n de Transferencia:
+Y*s^2 + 3*Y*s + 5*Y - 1 == 0
+ 
+Warning: Contour not rendered for constant ZData 
+</pre>
+<img vspace="5" hspace="5" src="P09ASyS20201_01.png" alt=""> <h2 id="2">Entregables sistemas en diferencias</h2>
+<p>Para sistemas diferenciales realizamos el siguiente programa con las caracter&iacute;sticas mencionadas</p>
+<pre class="codeinput">
+<span class="keyword">function</span> sistemaEnDiferencias(equation, inputFunction, nTimeSteps)
+    syms <span class="string">n</span> <span class="string">Z</span>;
+
+    system = sym(equation);
+
+    transferFunction = simplify(ztrans(system, n, Z) / ztrans(sym(inputFunction), n, Z));
+
+    impulseResponse = simplify(iztrans(transferFunction * ztrans(sym(inputFunction), n, Z), Z, n));
+
+    figure;
+
+    subplot(1,2,1);
+    fplot(transferFunction, [0 nTimeSteps]);
+    title(<span class="string">'Funci&oacute;n de Transferencia Aproximada'</span>);
+
+    subplot(1,2,2);
+    fplot(impulseResponse, [0 nTimeSteps]);
+    title(<span class="string">'Respuesta al Impulso Aproximada'</span>);
+
+    sgtitle(<span class="string">'An&aacute;lisis de Sistema en Diferencias'</span>);
+<span class="keyword">end</span>
+</pre>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%% Práctica 9:  Sistemas diferenciales y en diferencias
+%  * Moreno Castro José Pablo
+% * Pedraza Ocampo Eduardo
+% * Portillo Martínez Carolina
+% * Reyes Alvarez Angel
+%% Sistemas diferenciales
+% Para sistemas diferenciales realizamos este programa acorde a los puntos
+% y características que se mencionan en la practica
+
+syms s t Y
+
+ecuacion_diferencial = Y*s^2 + 3*Y*s + 5*Y - 1 == 0;
+
+condiciones_iniciales_Y = subs(Y, 0) == 0;
+condiciones_iniciales_dY = subs(diff(Y), 0) == 0;
+
+condiciones_iniciales = [condiciones_iniciales_Y, condiciones_iniciales_dY];
+
+u(t) = heaviside(t);
+
+disp('Ecuación Diferencial Inicializada:');
+disp(ecuacion_diferencial);
+
+
+funcion_transferencia = laplace(ecuacion_diferencial, t, s) / laplace(u, t, s);
+
+disp('Función de Transferencia:');
+disp(funcion_transferencia);
+
+respuesta_impulso = ilaplace(funcion_transferencia, s, t);
+subplot(2, 3, 1);
+ezplot(respuesta_impulso, [0, 10]);
+title('Respuesta al Impulso');
+
+respuesta_entrada_cero = ilaplace(funcion_transferencia * laplace(u, t, s), s, t);
+subplot(2, 3, 2);
+ezplot(respuesta_entrada_cero, [0, 10]);
+title('Respuesta a Entrada Cero');
+
+respuesta_estado_cero = ilaplace(funcion_transferencia * laplace(u, t, s), s, t);
+subplot(2, 3, 3);
+ezplot(respuesta_estado_cero, [0, 10]);
+title('Respuesta a Estado Cero');
+
+respuesta_total = ilaplace(laplace(ecuacion_diferencial, t, s) * laplace(u, t, s), s, t);
+subplot(2, 3, 4);
+ezplot(respuesta_total, [0, 10]);
+title('Respuesta Total');
+
+respuesta_escalon_cero = ilaplace(funcion_transferencia * laplace(u, t, s), s, t);
+subplot(2, 3, 5);
+ezplot(respuesta_escalon_cero, [0, 10]);
+title('Respuesta al Escalón con CI 0');
+
+
+%% Entregables sistemas en diferencias
+% Para sistemas diferenciales realizamos el siguiente programa con las 
+% características mencionadas
+% 
+function sistemaEnDiferencias(equation, inputFunction, nTimeSteps)
+    syms n Z;
+    
+    system = sym(equation);
+
+    transferFunction = simplify(ztrans(system, n, Z) / ztrans(sym(inputFunction), n, Z));
+
+    impulseResponse = simplify(iztrans(transferFunction * ztrans(sym(inputFunction), n, Z), Z, n));
+
+    figure;
+
+    subplot(1,2,1);
+    fplot(transferFunction, [0 nTimeSteps]);
+    title('Función de Transferencia Aproximada');
+
+    subplot(1,2,2);
+    fplot(impulseResponse, [0 nTimeSteps]);
+    title('Respuesta al Impulso Aproximada');
+
+    sgtitle('Análisis de Sistema en Diferencias');
+end
+
+
+
+##### SOURCE END #####
+-->
+</body>
+</html>
